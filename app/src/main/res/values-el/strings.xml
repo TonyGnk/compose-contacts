@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ComposeContacts</string>
+    <string name="search_placeholder">Αναζήτηση Επαφών</string>
+    <string name="add_contact">Προσθήκη Επαφής</string>
+</resources>
