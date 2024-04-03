@@ -16,7 +16,10 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,7 +30,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -63,26 +65,19 @@ fun HomeScreen(
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-//        topBar = {
-//            InventoryTopAppBar(
-//                title = stringResource(HomeDestination.titleRes),
-//                canNavigateBack = false,
-//                scrollBehavior = scrollBehavior
-//            )
-//        },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = navigateToItemEntry,
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.item_entry_title)
-                )
-            }
+            ExtendedFloatingActionButton(
+                text = { Text(stringResource(R.string.item_entry_title)) },
+                icon = {
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = stringResource(R.string.item_entry_title)
+                    )
+                },
+                onClick = navigateToItemEntry
+            )
         },
+        floatingActionButtonPosition = FabPosition.EndOverlay,
     ) { innerPadding ->
         HomeBody(
             itemList = homeUiState.itemList,
@@ -109,7 +104,7 @@ private fun HomeBody(
                 style = MaterialTheme.typography.titleLarge
             )
         } else {
-            InventoryList(
+            ContactsList(
                 itemList = itemList,
                 onItemClick = { onItemClick(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
@@ -119,12 +114,16 @@ private fun HomeBody(
 }
 
 @Composable
-private fun InventoryList(
-    itemList: List<Item>, onItemClick: (Item) -> Unit, modifier: Modifier = Modifier
+private fun ContactsList(
+    itemList: List<Item>,
+    onItemClick: (Item) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
         items(items = itemList, key = { it.id }) { item ->
-            InventoryItem(item = item,
+            ContactItem(
+                item = item,
+                onItemClick = { onItemClick(item) },
                 modifier = Modifier
                     .padding(dimensionResource(id = R.dimen.padding_small))
                     .clickable { onItemClick(item) })
@@ -133,13 +132,25 @@ private fun InventoryList(
 }
 
 @Composable
-private fun InventoryItem(
-    item: Item, modifier: Modifier = Modifier
+private fun ContactItem(
+    item: Item,
+    onItemClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier,
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
-    ) {
+    //Use Button instead of Card
+    FilledTonalButton(
+        onClick = onItemClick,
+        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
+    )
+//    {
+//
+//    }
+//
+//    Card(
+//        modifier = modifier,
+//        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
+//    )
+    {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
@@ -156,6 +167,11 @@ private fun InventoryItem(
                     text = item.formatedPrice(),
                     style = MaterialTheme.typography.titleMedium
                 )
+                Spacer(Modifier.weight(1f))
+                Text(
+                    text = item.number.toString(),
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
             Text(
                 text = stringResource(R.string.in_stock, item.quantity),
@@ -170,7 +186,9 @@ private fun InventoryItem(
 fun HomeBodyPreview() {
     ComposeContactsTheme {
         HomeBody(listOf(
-            Item(1, "Game", 100.0, 20), Item(2, "Pen", 200.0, 30), Item(3, "TV", 300.0, 50)
+            Item(1, "Game", 23105555, 100.0, 20),
+            Item(2, "Pen",23105555, 200.0, 30),
+            Item(3, "TV", 23105555,300.0, 50)
         ), onItemClick = {})
     }
 }
@@ -180,15 +198,5 @@ fun HomeBodyPreview() {
 fun HomeBodyEmptyListPreview() {
     ComposeContactsTheme {
         HomeBody(listOf(), onItemClick = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun InventoryItemPreview() {
-    ComposeContactsTheme {
-        InventoryItem(
-            Item(1, "Game", 100.0, 20),
-        )
     }
 }

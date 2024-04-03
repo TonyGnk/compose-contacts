@@ -52,6 +52,7 @@ data class ItemUiState(
 data class ItemDetails(
     val id: Int = 0,
     val name: String = "",
+    val number: Int = 0,
     val price: String = "",
     val quantity: String = "",
 )
@@ -65,6 +66,7 @@ data class ItemDetails(
 fun ItemDetails.toItem(): Item = Item(
     id = id,
     name = name,
+    number = number,
     price = price.toDoubleOrNull() ?: 0.0,
     quantity = quantity.toIntOrNull() ?: 0
 )
