@@ -3,4 +3,25 @@
     <string name="app_name">ComposeContacts</string>
     <string name="search_placeholder">Αναζήτηση Επαφών</string>
     <string name="add_contact">Προσθήκη Επαφής</string>
+    <string name="attention">Προσοχή</string>
+    <string name="back_button">Πίσω</string>
+    <string name="delete">Διαγραφή</string>
+    <string name="delete_question">Είστε σίγουροι ότι θέλετε να διαγράψετε;</string>
+    <string name="no_item_description">Ωχχ\nΔεν υπάρχουν αντικείμενα στο απόθεμα.\nΠατήστε + για να προσθέσετε.</string>
+    <string name="edit_item_title">Επεξεργασία αντικειμένου</string>
+    <string name="item">Αντικείμενο</string>
+    <string name="item_detail_title">Λεπτομέρειες αντικειμένου</string>
+    <string name="item_entry_title">Προσθήκη αντικειμένου</string>
+    <string name="item_name_req">Όνομα αντικειμένου*</string>
+    <string name="item_price_req">Τιμή αντικειμένου*</string>
+    <string name="no">Όχι</string>
+    <string name="price">Τιμή</string>
+    <string name="quantity_in_stock">Ποσότητα σε απόθεμα</string>
+    <string name="in_stock">%d σε απόθεμα</string>
+    <string name="quantity_req">Ποσότητα σε απόθεμα*</string>
+    <string name="save_action">Αποθήκευση</string>
+    <string name="sell">Πώληση</string>
+    <string name="yes">Ναι</string>
+    <string name="required_fields">*απαιτούμενα πεδία</string>
+    <string name="add_item_title">Προσθήκη αντικειμένου</string>
 </resources>
