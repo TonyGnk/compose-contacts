@@ -29,7 +29,7 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
 
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
-            name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
+            name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank() && number.isNotBlank()
         }
     }
 
@@ -52,7 +52,7 @@ data class ItemUiState(
 data class ItemDetails(
     val id: Int = 0,
     val name: String = "",
-    val number: Int = 0,
+    val number: String = "",
     val price: String = "",
     val quantity: String = "",
 )
@@ -66,7 +66,7 @@ data class ItemDetails(
 fun ItemDetails.toItem(): Item = Item(
     id = id,
     name = name,
-    number = number,
+    number = number.toIntOrNull() ?: 0,
     price = price.toDoubleOrNull() ?: 0.0,
     quantity = quantity.toIntOrNull() ?: 0
 )

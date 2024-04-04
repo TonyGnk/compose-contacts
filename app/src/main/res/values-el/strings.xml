@@ -24,4 +24,5 @@
     <string name="yes">Ναι</string>
     <string name="required_fields">*απαιτούμενα πεδία</string>
     <string name="add_item_title">Προσθήκη αντικειμένου</string>
+    <string name="number_req">Αριθμός τηλεφώνου*</string>
 </resources>

@@ -142,14 +142,6 @@ private fun ContactItem(
         onClick = onItemClick,
         modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
     )
-//    {
-//
-//    }
-//
-//    Card(
-//        modifier = modifier,
-//        elevation = CardDefaults.cardElevation(defaultElevation = 3.dp)
-//    )
     {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
@@ -167,14 +159,15 @@ private fun ContactItem(
                     text = item.formatedPrice(),
                     style = MaterialTheme.typography.titleMedium
                 )
-                Spacer(Modifier.weight(1f))
-                Text(
-                    text = item.number.toString(),
-                    style = MaterialTheme.typography.titleMedium
-                )
+
             }
             Text(
                 text = stringResource(R.string.in_stock, item.quantity),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(Modifier.weight(1f))
+            Text(
+                text = item.number.toString(),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -187,8 +180,8 @@ fun HomeBodyPreview() {
     ComposeContactsTheme {
         HomeBody(listOf(
             Item(1, "Game", 23105555, 100.0, 20),
-            Item(2, "Pen",23105555, 200.0, 30),
-            Item(3, "TV", 23105555,300.0, 50)
+            Item(2, "Pen", 23105555, 200.0, 30),
+            Item(3, "TV", 23105555, 300.0, 50)
         ), onItemClick = {})
     }
 }

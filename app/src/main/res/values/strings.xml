@@ -23,4 +23,5 @@
     <string name="yes">Yes</string>
     <string name="required_fields">*required fields</string>
     <string name="add_item_title">Add Item</string>
+    <string name="number_req">Phone Number*</string>
 </resources>
