@@ -1,11 +1,9 @@
 package com.example.composecontacts.ui.home
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,12 +11,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FilledIconButton
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -34,12 +29,10 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composecontacts.R
 import com.example.composecontacts.data.Item
 import com.example.composecontacts.ui.AppViewModelProvider
-import com.example.composecontacts.ui.item.formatedPrice
 import com.example.composecontacts.ui.navigation.NavigationDestination
 import com.example.composecontacts.ui.theme.ComposeContactsTheme
 import com.example.inventory.ui.home.HomeViewModel
@@ -91,19 +84,27 @@ fun HomeScreen(
 
 @Composable
 private fun HomeBody(
-    itemList: List<Item>, onItemClick: (Int) -> Unit, modifier: Modifier = Modifier
+    itemList: List<Item>,
+    onItemClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
-    ) {
-        if (itemList.isEmpty()) {
+    if (itemList.isEmpty()) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = modifier
+        ) {
             Text(
                 text = stringResource(R.string.no_item_description),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge
             )
-        } else {
+        }
+    } else {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier
+        ) {
             ContactsList(
                 itemList = itemList,
                 onItemClick = { onItemClick(it.id) },
@@ -124,9 +125,7 @@ private fun ContactsList(
             ContactItem(
                 item = item,
                 onItemClick = { onItemClick(item) },
-                modifier = Modifier
-                    .padding(dimensionResource(id = R.dimen.padding_small))
-                    .clickable { onItemClick(item) })
+            )
         }
     }
 }
@@ -135,40 +134,24 @@ private fun ContactsList(
 private fun ContactItem(
     item: Item,
     onItemClick: () -> Unit,
-    modifier: Modifier = Modifier
 ) {
-    //Use Button instead of Card
     FilledTonalButton(
         onClick = onItemClick,
-        modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small))
+        modifier = Modifier
+            .padding(dimensionResource(id = R.dimen.padding_small))
+        //.fillMaxWidth()
     )
     {
-        Column(
-            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
+        Row(
+            modifier = Modifier.padding(
+                dimensionResource(id = R.dimen.padding_smallPlus)
+            ),
+            //verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
-            Row(
+            Text(
+                text = item.name,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = item.name,
-                    style = MaterialTheme.typography.titleLarge,
-                )
-                Spacer(Modifier.weight(1f))
-                Text(
-                    text = item.formatedPrice(),
-                    style = MaterialTheme.typography.titleMedium
-                )
-
-            }
-            Text(
-                text = stringResource(R.string.in_stock, item.quantity),
-                style = MaterialTheme.typography.titleMedium
-            )
-            Spacer(Modifier.weight(1f))
-            Text(
-                text = item.number.toString(),
-                style = MaterialTheme.typography.titleMedium
             )
         }
     }
@@ -179,9 +162,9 @@ private fun ContactItem(
 fun HomeBodyPreview() {
     ComposeContactsTheme {
         HomeBody(listOf(
-            Item(1, "Game", 23105555, 100.0, 20),
-            Item(2, "Pen", 23105555, 200.0, 30),
-            Item(3, "TV", 23105555, 300.0, 50)
+            Item(1, "Game", 23105555),
+            Item(2, "Pen", 23105555),
+            Item(3, "TV", 23105555)
         ), onItemClick = {})
     }
 }

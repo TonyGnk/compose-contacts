@@ -1,6 +1,8 @@
 package com.example.composecontacts.ui.item
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -84,7 +86,7 @@ fun ItemDetailsScreen(
     ) { innerPadding ->
         ItemDetailsBody(
             itemDetailsUiState = uiState.value,
-            onSellItem = { viewModel.reduceQuantityByOne() },
+            onSellItem = { },
             onDelete = {
                 coroutineScope.launch {
                     viewModel.deleteItem()
@@ -119,7 +121,6 @@ private fun ItemDetailsBody(
             onClick = onSellItem,
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
-            enabled = !itemDetailsUiState.outOfStock
         ) {
             Text(stringResource(R.string.sell))
         }
@@ -130,16 +131,18 @@ private fun ItemDetailsBody(
         ) {
             Text(stringResource(R.string.delete))
         }
-        if (deleteConfirmationRequired) {
-            DeleteConfirmationDialog(
-                onDeleteConfirm = {
-                    deleteConfirmationRequired = false
-                    onDelete()
-                },
-                onDeleteCancel = { deleteConfirmationRequired = false },
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
-            )
-        }
+        // if (deleteConfirmationRequired) {
+
+        DeleteConfirmationDialog(
+            onDeleteConfirm = {
+                deleteConfirmationRequired = false
+                onDelete()
+            },
+            onDeleteCancel = { deleteConfirmationRequired = false },
+            showDialog = deleteConfirmationRequired,
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
+        )
+
     }
 }
 
@@ -169,20 +172,6 @@ fun ItemDetails(
                     horizontal = dimensionResource(id = R.dimen.padding_medium)
                 )
             )
-            ItemDetailsRow(
-                labelResID = R.string.quantity_in_stock,
-                itemDetail = item.quantity.toString(),
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
-            ItemDetailsRow(
-                labelResID = R.string.price,
-                itemDetail = item.formatedPrice(),
-                modifier = Modifier.padding(
-                    horizontal = dimensionResource(id = R.dimen.padding_medium)
-                )
-            )
         }
     }
 }
@@ -202,23 +191,34 @@ private fun ItemDetailsRow(
 private fun DeleteConfirmationDialog(
     onDeleteConfirm: () -> Unit,
     onDeleteCancel: () -> Unit,
+    showDialog: Boolean,
     modifier: Modifier = Modifier
 ) {
-    AlertDialog(onDismissRequest = { /* Do nothing */ },
-        title = { Text(stringResource(R.string.attention)) },
-        text = { Text(stringResource(R.string.delete_question)) },
-        modifier = modifier,
-        dismissButton = {
-            TextButton(onClick = onDeleteCancel) {
-                Text(stringResource(R.string.no))
+
+    AnimatedVisibility(
+        visible = showDialog,
+        enter = slideInVertically(initialOffsetY = { 12 })
+    ) {
+        AlertDialog(
+            onDismissRequest = { /* Do nothing */ },
+            title = { Text(stringResource(R.string.attention)) },
+            text = { Text(stringResource(R.string.delete_question)) },
+            modifier = modifier,
+            dismissButton = {
+                TextButton(onClick = onDeleteCancel) {
+                    Text(stringResource(R.string.no))
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = onDeleteConfirm) {
+                    Text(stringResource(R.string.yes))
+                }
             }
-        },
-        confirmButton = {
-            TextButton(onClick = onDeleteConfirm) {
-                Text(stringResource(R.string.yes))
-            }
-        })
+        )
+    }
+
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -226,8 +226,7 @@ fun ItemDetailsScreenPreview() {
     ComposeContactsTheme {
         ItemDetailsBody(
             ItemDetailsUiState(
-                outOfStock = true,
-                itemDetails = ItemDetails(1, "Pen", "23105555", "$100", "10")
+                itemDetails = ItemDetails(1, "Pen", "23105555")
             ),
             onSellItem = {},
             onDelete = {},

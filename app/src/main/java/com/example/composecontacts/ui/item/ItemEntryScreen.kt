@@ -8,26 +8,24 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.composecontacts.R
 import com.example.composecontacts.ui.AppViewModelProvider
 import com.example.composecontacts.ui.navigation.NavigationDestination
-import kotlinx.coroutines.*
-import com.example.composecontacts.R
 import com.example.composecontacts.ui.theme.ComposeContactsTheme
-import java.util.Currency
-import java.util.Locale
+import kotlinx.coroutines.launch
 
 object ItemEntryDestination : NavigationDestination {
     override val route = "item_entry"
@@ -35,7 +33,6 @@ object ItemEntryDestination : NavigationDestination {
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemEntryScreen(
     navigateBack: () -> Unit,
@@ -100,7 +97,6 @@ fun ItemEntryBody(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemInputForm(
     itemDetails: ItemDetails,
@@ -112,61 +108,16 @@ fun ItemInputForm(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
-        OutlinedTextField(
+        DefaultTextField(
             value = itemDetails.name,
             onValueChange = { onValueChange(itemDetails.copy(name = it)) },
             label = { Text(stringResource(R.string.item_name_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true
         )
-        OutlinedTextField(
-            value = itemDetails.price,
-            onValueChange = { onValueChange(itemDetails.copy(price = it)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-            label = { Text(stringResource(R.string.item_price_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            leadingIcon = { Text(Currency.getInstance(Locale.getDefault()).symbol) },
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = itemDetails.quantity,
-            onValueChange = { onValueChange(itemDetails.copy(quantity = it)) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            label = { Text(stringResource(R.string.quantity_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = itemDetails.number,
+        DefaultTextField(
+            value = itemDetails.number.toString(),
             onValueChange = { onValueChange(itemDetails.copy(number = it)) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             label = { Text(stringResource(R.string.number_req)) },
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ),
-            modifier = Modifier.fillMaxWidth(),
-            enabled = enabled,
-            singleLine = true,
         )
         if (enabled) {
             Text(
@@ -177,6 +128,31 @@ fun ItemInputForm(
     }
 }
 
+@Composable
+private fun DefaultTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    label: @Composable () -> Unit,
+    leadingIcon: @Composable () -> Unit = {}
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        keyboardOptions = keyboardOptions,
+        label = label,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+        ),
+        enabled = true,
+        leadingIcon = leadingIcon,
+        singleLine = true,
+        modifier = Modifier.fillMaxWidth(),
+    )
+}
+
 
 @Preview(showBackground = true)
 @Composable
@@ -184,7 +160,7 @@ private fun ItemEntryScreenPreview() {
     ComposeContactsTheme {
         ItemEntryBody(itemUiState = ItemUiState(
             ItemDetails(
-                name = "Item name", price = "10.00", quantity = "5"
+                name = "Item name",
             )
         ), onItemValueChange = {}, onSaveClick = {})
     }
