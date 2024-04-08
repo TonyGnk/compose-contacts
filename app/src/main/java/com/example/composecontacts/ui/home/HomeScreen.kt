@@ -42,20 +42,14 @@ object HomeDestination : NavigationDestination {
     override val titleRes = R.string.app_name
 }
 
-/**
- * Entry route for Home screen
- */
-@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     navigateToItemUpdate: (Int) -> Unit,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    modifier: Modifier = Modifier
 ) {
     val homeUiState by viewModel.homeUiState.collectAsState()
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
 
     Scaffold(
         floatingActionButton = {
@@ -139,14 +133,12 @@ private fun ContactItem(
         onClick = onItemClick,
         modifier = Modifier
             .padding(dimensionResource(id = R.dimen.padding_small))
-        //.fillMaxWidth()
     )
     {
         Row(
             modifier = Modifier.padding(
                 dimensionResource(id = R.dimen.padding_smallPlus)
             ),
-            //verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
         ) {
             Text(
                 text = item.name,
@@ -162,17 +154,9 @@ private fun ContactItem(
 fun HomeBodyPreview() {
     ComposeContactsTheme {
         HomeBody(listOf(
-            Item(1, "Game", 23105555),
-            Item(2, "Pen", 23105555),
-            Item(3, "TV", 23105555)
+            Item(1, "Γιαννακοβίτης Μανώλης", 23105555),
+            Item(2, "Στογιάννου Πόππη", 23105555),
+            Item(3, "Καρυτόπουλος Γιάννης", 23105555)
         ), onItemClick = {})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeBodyEmptyListPreview() {
-    ComposeContactsTheme {
-        HomeBody(listOf(), onItemClick = {})
     }
 }

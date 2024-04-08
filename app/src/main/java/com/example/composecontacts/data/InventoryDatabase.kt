@@ -1,7 +1,9 @@
 package com.example.composecontacts.data
 
-import android.content.*
-import androidx.room.*
+import android.content.Context
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 
 // Database class with a singleton Instance object.
