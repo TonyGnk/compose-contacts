@@ -1,14 +1,17 @@
 package com.example.composecontacts.ui.item
 
+import android.graphics.BitmapFactory
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -33,11 +36,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composecontacts.R
 import com.example.composecontacts.data.Item
@@ -45,6 +51,7 @@ import com.example.composecontacts.ui.AppViewModelProvider
 import com.example.composecontacts.ui.navigation.NavigationDestination
 import com.example.composecontacts.ui.theme.ComposeContactsTheme
 import kotlinx.coroutines.launch
+
 
 object ItemDetailsDestination : NavigationDestination {
     override val route = "item_details"
@@ -110,6 +117,7 @@ private fun ItemDetailsBody(
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
 
         ItemDetails(
+            itemDetailsUiState = itemDetailsUiState,
             item = itemDetailsUiState.itemDetails.toItem(),
             modifier = Modifier.fillMaxWidth()
         )
@@ -144,6 +152,7 @@ private fun ItemDetailsBody(
 
 @Composable
 fun ItemDetails(
+    itemDetailsUiState: ItemDetailsUiState,
     item: Item, modifier: Modifier = Modifier
 ) {
     Card(
@@ -161,6 +170,15 @@ fun ItemDetails(
                 dimensionResource(id = R.dimen.padding_medium)
             )
         ) {
+            //Image 80x80
+            Image(
+                bitmap = convertData(itemDetailsUiState.itemDetails.imageData),
+                contentDescription = "An Image",
+                modifier = Modifier.size(80.dp)
+            )
+
+
+
             ItemDetailsRow(
                 labelResID = R.string.item,
                 itemDetail = item.name,
@@ -170,6 +188,16 @@ fun ItemDetails(
             )
         }
     }
+}
+
+fun convertData(byteArray: ByteArray?): ImageBitmap {
+    if (byteArray == null) {
+        return ImageBitmap(1, 1)
+    }
+
+    //Covert the byteArray to ImageBitmap
+    val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    return bitmap.asImageBitmap()
 }
 
 @Composable
@@ -222,7 +250,7 @@ fun ItemDetailsScreenPreview() {
     ComposeContactsTheme {
         ItemDetailsBody(
             ItemDetailsUiState(
-                itemDetails = ItemDetails(1, "Pen", "23105555")
+                itemDetails = ItemDetails(1, null, "Pen", "23105555")
             ),
             onCall = {},
             onDelete = {},

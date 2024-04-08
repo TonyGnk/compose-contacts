@@ -1,5 +1,6 @@
 package com.example.composecontacts.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -10,4 +11,7 @@ data class Item(
     val id: Int = 0,
     val name: String,
     val number: Long,
+
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    var imageData: ByteArray? = null
 )

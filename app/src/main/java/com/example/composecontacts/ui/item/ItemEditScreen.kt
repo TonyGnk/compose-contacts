@@ -31,13 +31,6 @@ fun ItemEditScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
-//        topBar = {
-//            InventoryTopAppBar(
-//                title = stringResource(ItemEditDestination.titleRes),
-//                canNavigateBack = true,
-//                navigateUp = onNavigateUp
-//            )
-//        },
         modifier = modifier
     ) { innerPadding ->
         ItemEntryBody(
@@ -49,6 +42,7 @@ fun ItemEditScreen(
                     navigateBack()
                 }
             },
+            onSaveImage = { },
             modifier = Modifier.padding(innerPadding)
         )
     }

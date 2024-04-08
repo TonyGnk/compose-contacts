@@ -10,10 +10,8 @@ import com.example.composecontacts.data.ItemsRepository
 //ViewModel to validate and insert items in the Room database.
 class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
 
-
     var itemUiState by mutableStateOf(ItemUiState())
         private set
-
 
     /**
      * Updates the [itemUiState] with the value provided in the argument. This method also triggers
@@ -26,7 +24,7 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
 
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
-            name.isNotBlank() && number.toString().isNotBlank()
+            name.isNotBlank() && number.length == 10
         }
     }
 
@@ -35,6 +33,11 @@ class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewMod
             println("The number is ${itemUiState.itemDetails.number}")
             itemsRepository.insertItem(itemUiState.itemDetails.toItem())
         }
+    }
+
+    fun saveImage(bytes: ByteArray?) {
+        itemUiState =
+            itemUiState.copy(itemDetails = itemUiState.itemDetails.copy(imageData = bytes))
     }
 }
 
@@ -46,6 +49,7 @@ data class ItemUiState(
 
 data class ItemDetails(
     val id: Int = 0,
+    val imageData: ByteArray? = null,
     val name: String = "",
     val number: String = "",
 )
@@ -58,6 +62,7 @@ data class ItemDetails(
  */
 fun ItemDetails.toItem(): Item = Item(
     id = id,
+    imageData = imageData,
     name = name,
     number = number.toLongOrNull() ?: 0,
 )
@@ -79,5 +84,6 @@ fun Item.toItemUiState(isEntryValid: Boolean = false): ItemUiState = ItemUiState
 fun Item.toItemDetails(): ItemDetails = ItemDetails(
     id = id,
     name = name,
+    imageData = imageData,
     number = number.toString(),
 )

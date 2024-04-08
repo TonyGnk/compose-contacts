@@ -1,5 +1,10 @@
 package com.example.composecontacts.ui.item
 
+import android.app.Activity.RESULT_OK
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,8 +19,14 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -42,13 +53,6 @@ fun ItemEntryScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
-//        topBar = {
-//            InventoryTopAppBar(
-//                title = stringResource(ItemEntryDestination.titleRes),
-//                canNavigateBack = canNavigateBack,
-//                navigateUp = onNavigateUp
-//            )
-//        }
     ) { innerPadding ->
         ItemEntryBody(
             itemUiState = viewModel.itemUiState,
@@ -58,8 +62,8 @@ fun ItemEntryScreen(
                     viewModel.saveItem()
                     navigateBack()
                 }
-
             },
+            { viewModel.saveImage(it) },
             modifier = Modifier
                 .padding(innerPadding)
                 .verticalScroll(rememberScrollState())
@@ -68,12 +72,12 @@ fun ItemEntryScreen(
     }
 }
 
-
 @Composable
 fun ItemEntryBody(
     itemUiState: ItemUiState,
     onItemValueChange: (ItemDetails) -> Unit,
     onSaveClick: () -> Unit,
+    onSaveImage: (ByteArray?) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -83,6 +87,7 @@ fun ItemEntryBody(
         ItemInputForm(
             itemDetails = itemUiState.itemDetails,
             onValueChange = onItemValueChange,
+            onSaveImage = onSaveImage,
             modifier = Modifier.fillMaxWidth()
         )
         Button(
@@ -102,7 +107,7 @@ fun ItemInputForm(
     itemDetails: ItemDetails,
     modifier: Modifier = Modifier,
     onValueChange: (ItemDetails) -> Unit = {},
-    enabled: Boolean = true
+    onSaveImage: (ByteArray?) -> Unit
 ) {
     Column(
         modifier = modifier,
@@ -119,14 +124,48 @@ fun ItemInputForm(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
             label = { Text(stringResource(R.string.number_req)) },
         )
-        if (enabled) {
-            Text(
-                text = stringResource(R.string.required_fields),
-                modifier = Modifier.padding(start = dimensionResource(id = R.dimen.padding_medium))
-            )
-        }
+        uploadImageButton(onSaveImage = onSaveImage)
     }
 }
+
+@Composable
+private fun uploadImageButton(
+    onSaveImage: (ByteArray?) -> Unit
+) {
+    val context = LocalContext.current
+    val galleryLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uriList ->
+            // process with the received image uri
+
+            //First check if the image is not null
+            if (uriList != null) {
+                //Then get the content resolver
+                val contentResolver = context.contentResolver
+                //Then get the input stream from the content resolver
+                val inputStream = contentResolver.openInputStream(uriList)
+                //Then get the byte array from the input stream
+                val byteArray = inputStream?.readBytes()
+                //Then close the input stream
+                inputStream?.close()
+                //Then call onSaveImage
+                onSaveImage(byteArray)
+
+            }
+
+        }
+
+    val pickVisualMediaRequest: PickVisualMediaRequest = remember {
+        PickVisualMediaRequest()
+    }
+    Button(
+        onClick = { galleryLauncher.launch(pickVisualMediaRequest) },
+        shape = MaterialTheme.shapes.small,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(text = "Upload Image")
+    }
+}
+
 
 @Composable
 private fun DefaultTextField(
@@ -162,6 +201,6 @@ private fun ItemEntryScreenPreview() {
             ItemDetails(
                 name = "Item name",
             )
-        ), onItemValueChange = {}, onSaveClick = {})
+        ), onItemValueChange = {}, onSaveClick = {}, onSaveImage = {})
     }
 }
