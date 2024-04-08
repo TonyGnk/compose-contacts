@@ -1,6 +1,7 @@
 package com.example.composecontacts.ui.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
@@ -85,6 +87,7 @@ fun HomeScreen(
                         contentDescription = stringResource(R.string.item_entry_title)
                     )
                 },
+                containerColor = MaterialTheme.colorScheme.primary,
                 onClick = navigateToItemEntry
             )
         },
@@ -112,7 +115,7 @@ private fun HomeSearchBar(
         onQueryChange = { model.onQueryChange(it) },
         onSearch = {},
         active = uiState.isSearching,
-        onActiveChange = { model.onSearch(it) },
+        onActiveChange = { model.onSearch() },
         placeholder = {
             Text(
                 stringResource(R.string.search_placeholder), fontFamily = googleSansFontFamily
@@ -121,7 +124,7 @@ private fun HomeSearchBar(
         leadingIcon = {
             //if isSearching back icon. If not search
             if (uiState.isSearching) {
-                IconButton(onClick = { model.onSearch(false) }) {
+                IconButton(onClick = { model.onSearch(true) }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Default.ArrowBack,
                         contentDescription = "Close",
@@ -136,7 +139,7 @@ private fun HomeSearchBar(
         },
         trailingIcon = {
             if (uiState.isSearching) {
-                IconButton(onClick = { model.onSearch(false) }) {
+                IconButton(onClick = { model.onSearch() }) {
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = "Close",
@@ -211,24 +214,18 @@ private fun ContactItem(
     item: Item,
     onItemClick: () -> Unit,
 ) {
-    FilledTonalButton(
-        onClick = onItemClick,
+    ListItem(
         modifier = Modifier
-            .padding(dimensionResource(id = R.dimen.padding_small))
-    )
-    {
-        Row(
-            modifier = Modifier.padding(
-                dimensionResource(id = R.dimen.padding_smallPlus)
-            ),
-        ) {
+            .clickable(onClick = onItemClick),
+        headlineContent = {
             Text(
                 text = item.name,
                 style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+
             )
-        }
-    }
+        },
+    )
 }
 
 @Preview(showBackground = true)

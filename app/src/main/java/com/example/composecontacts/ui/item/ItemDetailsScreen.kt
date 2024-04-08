@@ -33,6 +33,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,14 +63,9 @@ fun ItemDetailsScreen(
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+
     Scaffold(
-//        topBar = {
-//            InventoryTopAppBar(
-//                title = stringResource(ItemDetailsDestination.titleRes),
-//                canNavigateBack = true,
-//                navigateUp = navigateBack
-//            )
-//        },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { navigateToEditItem(uiState.value.itemDetails.id) },
@@ -86,7 +82,7 @@ fun ItemDetailsScreen(
     ) { innerPadding ->
         ItemDetailsBody(
             itemDetailsUiState = uiState.value,
-            onSellItem = { },
+            onCall = { viewModel.callNumber(context) },
             onDelete = {
                 coroutineScope.launch {
                     viewModel.deleteItem()
@@ -103,7 +99,7 @@ fun ItemDetailsScreen(
 @Composable
 private fun ItemDetailsBody(
     itemDetailsUiState: ItemDetailsUiState,
-    onSellItem: () -> Unit,
+    onCall: () -> Unit,
     onDelete: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -118,11 +114,11 @@ private fun ItemDetailsBody(
             modifier = Modifier.fillMaxWidth()
         )
         Button(
-            onClick = onSellItem,
+            onClick = onCall,
             modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.small,
         ) {
-            Text(stringResource(R.string.sell))
+            Text(stringResource(R.string.call))
         }
         OutlinedButton(
             onClick = { deleteConfirmationRequired = true },
@@ -228,7 +224,7 @@ fun ItemDetailsScreenPreview() {
             ItemDetailsUiState(
                 itemDetails = ItemDetails(1, "Pen", "23105555")
             ),
-            onSellItem = {},
+            onCall = {},
             onDelete = {},
         )
     }

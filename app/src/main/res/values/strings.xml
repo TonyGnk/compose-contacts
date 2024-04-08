@@ -19,7 +19,7 @@
     <string name="in_stock">%d in stock</string>
     <string name="quantity_req">Quantity in Stock*</string>
     <string name="save_action">Save</string>
-    <string name="sell">Sell</string>
+    <string name="call">Call</string>
     <string name="yes">Yes</string>
     <string name="required_fields">*required fields</string>
     <string name="add_item_title">Add Item</string>

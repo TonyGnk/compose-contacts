@@ -20,7 +20,7 @@
     <string name="in_stock">%d σε απόθεμα</string>
     <string name="quantity_req">Ποσότητα σε απόθεμα*</string>
     <string name="save_action">Αποθήκευση</string>
-    <string name="sell">Πώληση</string>
+    <string name="call">Κλήση</string>
     <string name="yes">Ναι</string>
     <string name="required_fields">*απαιτούμενα πεδία</string>
     <string name="add_item_title">Προσθήκη αντικειμένου</string>

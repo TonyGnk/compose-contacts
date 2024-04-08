@@ -20,22 +20,58 @@ val Typography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp,
         letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
+    ),
+    bodyMedium = TextStyle(
+        fontFamily = googleSansFontFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.25.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.4.sp
+    ),
+    labelLarge = TextStyle(
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.15.sp
+    ),
+    labelMedium = TextStyle(
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.W500,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.4.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.W500,
         fontSize = 11.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+        letterSpacing = 0.4.sp
+    ),
+    //Create display large with 400 weight, 57 pt size, 64 pt line height
+    displayLarge = TextStyle(
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 57.sp,
+    ),
+    //medium 42 sp
+    displayMedium = TextStyle(
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 45.sp,
+    ),
+    displaySmall = TextStyle(
+        fontFamily = googleSansFontFamily,
+        fontWeight = FontWeight.Normal,
+        fontSize = 36.sp,
+    ),
 )
 

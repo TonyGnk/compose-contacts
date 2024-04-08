@@ -1,12 +1,17 @@
 package com.example.composecontacts.ui.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.core.EaseIn
 import androidx.compose.animation.core.EaseOut
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -29,6 +34,25 @@ fun ContactsNavHost(
     navController: NavHostController,
     modifier: Modifier = Modifier,
 ) {
+    val enterAnimation =
+        slideInHorizontally(
+            //animationSpec = tween(200, easing = EaseIn),
+            //from right to left
+            initialOffsetX = { 200 },
+        ) + fadeIn(
+        )
+
+    val exitAnimation = slideOutHorizontally(
+//        animationSpec = tween(300, easing = EaseOut),
+        //from left to right
+        targetOffsetX = { 200 },
+    ) + fadeOut(
+//        animationSpec = tween(
+//            300, easing = LinearEasing
+//        )
+    )
+
+
     NavHost(
         navController = navController,
         startDestination = HomeDestination.route,
@@ -44,26 +68,8 @@ fun ContactsNavHost(
         }
         composable(
             route = ItemEntryDestination.route,
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(300, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(300, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            }
+            enterTransition = { enterAnimation },
+            exitTransition = { exitAnimation }
         ) {
             ItemEntryScreen(
                 navigateBack = { navController.popBackStack() },
@@ -72,26 +78,8 @@ fun ContactsNavHost(
         }
         composable(
             route = ItemDetailsDestination.routeWithArgs,
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(300, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(300, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            },
+            enterTransition = { enterAnimation },
+            exitTransition = { exitAnimation },
             arguments = listOf(navArgument(ItemDetailsDestination.itemIdArg) {
                 type = NavType.IntType
             }),
@@ -104,25 +92,9 @@ fun ContactsNavHost(
         composable(
             route = ItemEditDestination.routeWithArgs,
             enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(300, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
+                enterAnimation
             },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(300, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            },
+            exitTransition = { exitAnimation },
             arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
                 type = NavType.IntType
             })
@@ -134,3 +106,4 @@ fun ContactsNavHost(
         }
     }
 }
+

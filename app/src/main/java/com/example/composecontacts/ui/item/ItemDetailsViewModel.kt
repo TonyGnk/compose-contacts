@@ -1,5 +1,19 @@
 package com.example.composecontacts.ui.item
 
+import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Bundle
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+
 
 // ViewModel to retrieve, update and delete an item from the [ItemsRepository]'s data source.
 class ItemDetailsViewModel(
@@ -31,14 +46,38 @@ class ItemDetailsViewModel(
         private const val TIMEOUT_MILLIS = 5_000L
     }
 
-//    fun reduceQuantityByOne() {
-//        viewModelScope.launch {
-//            val currentItem = uiState.value.itemDetails.toItem()
-//            if (currentItem.quantity > 0) {
-//                itemsRepository.updateItem(currentItem.copy(quantity = currentItem.quantity - 1))
-//            }
-//        }
-//    }
+    @SuppressLint("StateFlowValueCalledInComposition")
+    fun callNumber(context: Context) {
+        if (uiState.value.itemDetails.number.length != 10) return
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) ==
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            val intent = Intent(Intent.ACTION_CALL)
+            intent.data = Uri.parse("tel: ${uiState.value.itemDetails.number}")
+            startActivity(context, intent, bundleOf())
+        } else {
+            val activity = context as Activity
+            ActivityCompat.requestPermissions(
+                activity, arrayOf(Manifest.permission.CALL_PHONE), 777
+            )
+        }
+
+
+//        //Get context
+//
+//        //options Bundle?
+//        val options = Bundle()
+//
+//        val intent = Intent(Intent.ACTION_CALL)
+//        intent.setData(Uri.parse(uiState.value.itemDetails.number))
+//        startActivity(
+//            context,
+//            intent,
+//            options
+//        )
+    }
+
 
     suspend fun deleteItem() {
         itemsRepository.deleteItem(uiState.value.itemDetails.toItem())

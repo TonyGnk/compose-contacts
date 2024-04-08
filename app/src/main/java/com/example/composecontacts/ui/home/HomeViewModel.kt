@@ -30,20 +30,29 @@ class HomeViewModel(itemsRepository: ItemsRepository) : ViewModel() {
         private const val TIMEOUT_MILLIS = 5_000L
     }
 
-    fun onSearch(state: Boolean) {
-        //Update the uiState with isSearching = state
-        _searchState.update {
-            it.copy(
-                isSearching = state,
-                //if state false then reset the searchQuery
-                searchQuery = if (!state) "" else it.searchQuery
-            )
+    fun onSearch(force: Boolean = false) {
+        if (searchState.value.searchQuery.isNotEmpty() && !force) {
+            _searchState.update {
+                it.copy(
+                    searchQuery = "",
+                )
+            }
+        } else {
+            _searchState.update {
+                it.copy(
+                    isSearching = false,
+                    searchQuery = "",
+                )
+            }
         }
     }
 
     fun onQueryChange(query: String) {
         _searchState.update {
-            it.copy(searchQuery = query)
+            it.copy(
+                searchQuery = query,
+                isSearching = if (query.isNotEmpty()) true else it.isSearching
+            )
         }
     }
 
