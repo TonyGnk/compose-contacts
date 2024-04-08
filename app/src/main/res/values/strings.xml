@@ -11,11 +11,9 @@
     <string name="item">Item</string>
     <string name="item_detail_title">Item Details</string>
     <string name="item_entry_title">Add Contact</string>
-    <string name="item_name_req">Item Name*</string>
-    <string name="item_price_req">Item Price*</string>
+    <string name="item_name_req">Name*</string>
     <string name="no">No</string>
     <string name="price">Price</string>
-    <string name="quantity_in_stock">Quantity in stock</string>
     <string name="in_stock">%d in stock</string>
     <string name="quantity_req">Quantity in Stock*</string>
     <string name="save_action">Save</string>

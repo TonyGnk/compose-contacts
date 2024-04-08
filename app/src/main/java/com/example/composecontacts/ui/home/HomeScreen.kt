@@ -1,6 +1,8 @@
 package com.example.composecontacts.ui.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -8,10 +10,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
@@ -26,21 +30,27 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.composecontacts.R
 import com.example.composecontacts.data.Item
 import com.example.composecontacts.ui.AppViewModelProvider
+import com.example.composecontacts.ui.item.convertData
 import com.example.composecontacts.ui.navigation.NavigationDestination
 import com.example.composecontacts.ui.theme.ComposeContactsTheme
 import com.example.inventory.ui.home.HomeSearchState
@@ -211,6 +221,35 @@ private fun ContactItem(
     ListItem(
         modifier = Modifier
             .clickable(onClick = onItemClick),
+        //Square Image of the contact
+        leadingContent = {
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(43.dp)
+                    .background(color = MaterialTheme.colorScheme.primaryContainer),
+                contentAlignment = Alignment.Center
+            ) {
+                if (item.imageData != null) {
+                    Image(
+                        bitmap = convertData(item.imageData),
+                        contentDescription = "An Image",
+                        contentScale = ContentScale.Crop
+                    )
+                }
+                //Display the first letter of the name if there is no image
+                else {
+                    Text(
+                        text = item.name.first().toString(),
+                        fontSize = 26.sp,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        fontWeight = FontWeight.W500,
+                        modifier = Modifier.wrapContentSize(Alignment.Center)
+                    )
+                }
+            }
+        },
         headlineContent = {
             Text(
                 text = item.name,

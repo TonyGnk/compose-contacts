@@ -12,11 +12,9 @@
     <string name="item">Αντικείμενο</string>
     <string name="item_detail_title">Λεπτομέρειες αντικειμένου</string>
     <string name="item_entry_title">Δημιουργία επαφής</string>
-    <string name="item_name_req">Όνομα αντικειμένου*</string>
-    <string name="item_price_req">Τιμή αντικειμένου*</string>
+    <string name="item_name_req">Όνομα*</string>
     <string name="no">Όχι</string>
     <string name="price">Τιμή</string>
-    <string name="quantity_in_stock">Ποσότητα σε απόθεμα</string>
     <string name="in_stock">%d σε απόθεμα</string>
     <string name="quantity_req">Ποσότητα σε απόθεμα*</string>
     <string name="save_action">Αποθήκευση</string>
