@@ -73,19 +73,20 @@ fun ItemDetailsScreen(
     val context = LocalContext.current
 
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { navigateToEditItem(uiState.value.itemDetails.id) },
-                shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(R.string.edit_item_title),
-                )
-            }
-        }, modifier = modifier
+//        floatingActionButton = {
+//            FloatingActionButton(
+//                onClick = { navigateToEditItem(uiState.value.itemDetails.id) },
+//                shape = MaterialTheme.shapes.medium,
+//                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
+//
+//            ) {
+//                Icon(
+//                    imageVector = Icons.Default.Edit,
+//                    contentDescription = stringResource(R.string.edit_item_title),
+//                )
+//            }
+//        },
+        modifier = modifier
     ) { innerPadding ->
         ItemDetailsBody(
             itemDetailsUiState = uiState.value,
@@ -115,7 +116,6 @@ private fun ItemDetailsBody(
         verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
     ) {
         var deleteConfirmationRequired by rememberSaveable { mutableStateOf(false) }
-
         ItemDetails(
             itemDetailsUiState = itemDetailsUiState,
             item = itemDetailsUiState.itemDetails.toItem(),
@@ -171,17 +171,17 @@ fun ItemDetails(
             )
         ) {
             //Image 80x80
-            Image(
-                bitmap = convertData(itemDetailsUiState.itemDetails.imageData),
-                contentDescription = "An Image",
-                modifier = Modifier.size(80.dp)
-            )
-
-
+            if (itemDetailsUiState.itemDetails.imageData != null) {
+                Image(
+                    bitmap = convertData(itemDetailsUiState.itemDetails.imageData),
+                    contentDescription = "An Image",
+                    modifier = Modifier.size(80.dp)
+                )
+            }
 
             ItemDetailsRow(
-                labelResID = R.string.item,
-                itemDetail = item.name,
+                name = item.name,
+                number = item.number,
                 modifier = Modifier.padding(
                     horizontal = dimensionResource(id = R.dimen.padding_medium)
                 )
@@ -202,12 +202,16 @@ fun convertData(byteArray: ByteArray?): ImageBitmap {
 
 @Composable
 private fun ItemDetailsRow(
-    @StringRes labelResID: Int, itemDetail: String, modifier: Modifier = Modifier
+    name: String, number: Long, modifier: Modifier = Modifier
 ) {
+    //convert the long to string properly
+    //For every digit in the number, add a character to the string
+    val number2 = number.toString()
+
     Row(modifier = modifier) {
-        Text(stringResource(labelResID))
+        Text(name)
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = itemDetail, fontWeight = FontWeight.Bold)
+        Text(text = number2, fontWeight = FontWeight.Bold)
     }
 }
 
