@@ -6,13 +6,13 @@ A simple android application build with Jetpack Compose and Kotlin to manage con
 
 ## Screenshot
 
-[<img src="assets/Screenshots/light.png" width="270" alt="App UI in Dark Theme" />](https://tonygnk.github.io/flutter-contacts-app/)
+[<img src="readme_image.png" width="270" alt="App UI in Dark Theme" />]
 
 ## ✨ Features
 
--   View contact details
--   Add and delete contacts
--   Seamlessly store contacts using *Room*, a robust SQLite Database solution
+- View contact details
+- Add and delete contacts
+- Seamlessly store contacts using *Room*, a robust SQLite Database solution
 
 ## 🤝 Contributing
 
