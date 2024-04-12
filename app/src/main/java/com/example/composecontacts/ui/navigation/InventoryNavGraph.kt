@@ -1,12 +1,7 @@
 package com.example.composecontacts.ui.navigation
 
-import androidx.compose.animation.AnimatedContentTransitionScope
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.core.EaseIn
-import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -28,7 +23,6 @@ import com.example.composecontacts.ui.item.ItemEditScreen
 import com.example.composecontacts.ui.item.ItemEntryDestination
 import com.example.composecontacts.ui.item.ItemEntryScreen
 
-// Provides Navigation graph for the application.
 @Composable
 fun ContactsNavHost(
     navController: NavHostController,
@@ -36,20 +30,25 @@ fun ContactsNavHost(
 ) {
     val enterAnimation =
         slideInHorizontally(
-            //animationSpec = tween(200, easing = EaseIn),
-            //from right to left
-            initialOffsetX = { 200 },
+//            animationSpec = tween(
+//                250, easing = FastOutSlowInEasing
+//            ),
+            initialOffsetX = { 100 },
         ) + fadeIn(
+            animationSpec = tween(
+                250, easing = FastOutSlowInEasing
+            )
         )
 
     val exitAnimation = slideOutHorizontally(
-//        animationSpec = tween(300, easing = EaseOut),
-        //from left to right
-        targetOffsetX = { 200 },
-    ) + fadeOut(
+        targetOffsetX = { 100 },
 //        animationSpec = tween(
-//            300, easing = LinearEasing
+//            250, easing = FastOutSlowInEasing
 //        )
+    ) + fadeOut(
+        animationSpec = tween(
+            250, easing = FastOutSlowInEasing
+        )
     )
 
 
