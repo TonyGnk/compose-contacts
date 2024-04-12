@@ -6,7 +6,7 @@ A simple android application build with Jetpack Compose and Kotlin to manage con
 
 ## Screenshot
 
-[<img src="readme_image.png" width="270" alt="App UI in Dark Theme" />]
+<img src="readme_image.png" width="270" alt="App UI in Dark Theme" />
 
 ## ✨ Features
 
