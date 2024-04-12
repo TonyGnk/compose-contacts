@@ -11,6 +11,7 @@ composeBom = "2024.03.00"
 room_version = "2.6.1"
 nav_version = "2.7.7"
 coil_compose = "2.5.0"
+splash_version = "1.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +44,9 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 
 #implementation("io.coil-kt:coil-compose:2.5.0")
 coil_compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil_compose" }
+
+#implementation of core splash screen
+androidx-core-splash-screen = { group = "androidx.core", name = "splashscreen", version.ref = "splash_version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
