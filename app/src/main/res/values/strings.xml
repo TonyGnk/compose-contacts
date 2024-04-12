@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ComposeContacts</string>
+    <string name="app_name">Compose Contacts</string>
     <string name="search_placeholder">Search Contacts</string>
     <string name="add_contact">Add Contact</string>
     <string name="attention">Attention</string>

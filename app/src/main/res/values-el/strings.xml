@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ComposeContacts</string>
+    <string name="app_name">Επαφές Compose</string>
     <string name="search_placeholder">Αναζήτηση Επαφών</string>
     <string name="add_contact">Προσθήκη Επαφής</string>
     <string name="attention">Προσοχή</string>
@@ -12,7 +12,7 @@
     <string name="item">Αντικείμενο</string>
     <string name="item_detail_title">Λεπτομέρειες αντικειμένου</string>
     <string name="item_entry_title">Δημιουργία επαφής</string>
-    <string name="item_name_req">Όνομα*</string>
+    <string name="item_name_req">Όνομα</string>
     <string name="no">Όχι</string>
     <string name="price">Τιμή</string>
     <string name="in_stock">%d σε απόθεμα</string>
@@ -22,5 +22,5 @@
     <string name="yes">Ναι</string>
     <string name="required_fields">*απαιτούμενα πεδία</string>
     <string name="add_item_title">Προσθήκη αντικειμένου</string>
-    <string name="number_req">Αριθμός τηλεφώνου*</string>
+    <string name="number_req">Αριθμός τηλεφώνου</string>
 </resources>
