@@ -221,7 +221,6 @@ private fun ContactItem(
     ListItem(
         modifier = Modifier
             .clickable(onClick = onItemClick),
-        //Square Image of the contact
         leadingContent = {
             Box(
                 modifier = Modifier
