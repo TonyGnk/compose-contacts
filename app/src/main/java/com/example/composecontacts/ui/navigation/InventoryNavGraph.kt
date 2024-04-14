@@ -30,7 +30,7 @@ fun ContactsNavHost(
 ) {
     val enterAnimation =
         slideInHorizontally(
-            initialOffsetX = { 80 },
+            initialOffsetX = { 40 },
         ) + fadeIn(
             animationSpec = tween(
                 200, easing = FastOutSlowInEasing
@@ -45,7 +45,7 @@ fun ContactsNavHost(
         )
 
     val exitAnimation = slideOutHorizontally(
-        targetOffsetX = { 80 },
+        targetOffsetX = { 40 },
     ) + fadeOut(
         animationSpec = tween(
             200, easing = FastOutSlowInEasing
@@ -75,7 +75,7 @@ fun ContactsNavHost(
         composable(
             route = ItemEntryDestination.route,
             enterTransition = { enterAnimation },
-            exitTransition = { exitAnimationSimple }
+            exitTransition = { exitAnimation }
         ) {
             ItemEntryScreen(
                 navigateBack = { navController.popBackStack() },
@@ -85,7 +85,7 @@ fun ContactsNavHost(
         composable(
             route = ItemDetailsDestination.routeWithArgs,
             enterTransition = { enterAnimation },
-            exitTransition = { exitAnimationSimple },
+            exitTransition = { exitAnimation },
             arguments = listOf(navArgument(ItemDetailsDestination.itemIdArg) {
                 type = NavType.IntType
             }),
@@ -98,7 +98,7 @@ fun ContactsNavHost(
         composable(
             route = ItemEditDestination.routeWithArgs,
             enterTransition = { enterAnimation },
-            exitTransition = { exitAnimationSimple },
+            exitTransition = { exitAnimation },
             arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
                 type = NavType.IntType
             })

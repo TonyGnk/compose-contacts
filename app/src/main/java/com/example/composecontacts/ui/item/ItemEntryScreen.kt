@@ -63,7 +63,7 @@ import kotlinx.coroutines.launch
 
 object ItemEntryDestination : NavigationDestination {
     override val route = "item_entry"
-    override val titleRes = R.string.add_item_title
+    override val titleRes = R.string.add_contact
 }
 
 
@@ -78,7 +78,7 @@ fun ItemEntryScreen(
     Scaffold(
         topBar = {
             ItemAppBar(
-                title = stringResource(R.string.add_item_title),
+                title = stringResource(R.string.add_contact),
                 onNavigateUp = onNavigateUp,
             )
         },
