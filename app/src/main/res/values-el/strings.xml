@@ -8,7 +8,7 @@
     <string name="delete">Διαγραφή</string>
     <string name="delete_question">Είστε σίγουροι ότι θέλετε να διαγράψετε;</string>
     <string name="no_item_description">Η λίστα επαφών σας είναι κενή</string>
-    <string name="edit_item_title">Επεξεργασία αντικειμένου</string>
+    <string name="edit_item_title">Επεξεργασία</string>
     <string name="item">Αντικείμενο</string>
     <string name="item_detail_title">Λεπτομέρειες αντικειμένου</string>
     <string name="item_entry_title">Δημιουργία επαφής</string>

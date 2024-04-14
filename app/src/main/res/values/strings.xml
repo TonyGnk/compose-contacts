@@ -7,7 +7,7 @@
     <string name="delete">Delete</string>
     <string name="delete_question">Are you sure you want to delete?</string>
     <string name="no_item_description">Your contacts list is empty</string>
-    <string name="edit_item_title">Edit Item</string>
+    <string name="edit_item_title">Edit</string>
     <string name="item">Item</string>
     <string name="item_detail_title">Item Details</string>
     <string name="item_entry_title">Add Contact</string>

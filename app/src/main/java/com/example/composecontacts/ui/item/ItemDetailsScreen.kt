@@ -21,6 +21,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -73,19 +74,14 @@ fun ItemDetailsScreen(
     val context = LocalContext.current
 
     Scaffold(
-//        floatingActionButton = {
-//            FloatingActionButton(
-//                onClick = { navigateToEditItem(uiState.value.itemDetails.id) },
-//                shape = MaterialTheme.shapes.medium,
-//                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large))
-//
-//            ) {
-//                Icon(
-//                    imageVector = Icons.Default.Edit,
-//                    contentDescription = stringResource(R.string.edit_item_title),
-//                )
-//            }
-//        },
+        floatingActionButton = {
+            ExtendedFloatingActionButton(
+                onClick = { navigateToEditItem(uiState.value.itemDetails.id) },
+                icon = { Icon(Icons.Filled.Edit, stringResource(R.string.edit_item_title)) },
+                text = { Text(text = stringResource(R.string.edit_item_title)) },
+            )
+
+        },
         modifier = modifier
     ) { innerPadding ->
         ItemDetailsBody(

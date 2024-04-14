@@ -30,24 +30,31 @@ fun ContactsNavHost(
 ) {
     val enterAnimation =
         slideInHorizontally(
-//            animationSpec = tween(
-//                250, easing = FastOutSlowInEasing
-//            ),
-            initialOffsetX = { 100 },
+            initialOffsetX = { 80 },
         ) + fadeIn(
             animationSpec = tween(
-                250, easing = FastOutSlowInEasing
+                200, easing = FastOutSlowInEasing
+            )
+        )
+
+    val enterAnimationSimple =
+        fadeIn(
+            animationSpec = tween(
+                200, easing = FastOutSlowInEasing
             )
         )
 
     val exitAnimation = slideOutHorizontally(
-        targetOffsetX = { 100 },
-//        animationSpec = tween(
-//            250, easing = FastOutSlowInEasing
-//        )
+        targetOffsetX = { 80 },
     ) + fadeOut(
         animationSpec = tween(
-            250, easing = FastOutSlowInEasing
+            200, easing = FastOutSlowInEasing
+        )
+    )
+
+    val exitAnimationSimple = fadeOut(
+        animationSpec = tween(
+            200, easing = FastOutSlowInEasing
         )
     )
 
@@ -68,7 +75,7 @@ fun ContactsNavHost(
         composable(
             route = ItemEntryDestination.route,
             enterTransition = { enterAnimation },
-            exitTransition = { exitAnimation }
+            exitTransition = { exitAnimationSimple }
         ) {
             ItemEntryScreen(
                 navigateBack = { navController.popBackStack() },
@@ -78,7 +85,7 @@ fun ContactsNavHost(
         composable(
             route = ItemDetailsDestination.routeWithArgs,
             enterTransition = { enterAnimation },
-            exitTransition = { exitAnimation },
+            exitTransition = { exitAnimationSimple },
             arguments = listOf(navArgument(ItemDetailsDestination.itemIdArg) {
                 type = NavType.IntType
             }),
@@ -90,10 +97,8 @@ fun ContactsNavHost(
         }
         composable(
             route = ItemEditDestination.routeWithArgs,
-            enterTransition = {
-                enterAnimation
-            },
-            exitTransition = { exitAnimation },
+            enterTransition = { enterAnimation },
+            exitTransition = { exitAnimationSimple },
             arguments = listOf(navArgument(ItemEditDestination.itemIdArg) {
                 type = NavType.IntType
             })

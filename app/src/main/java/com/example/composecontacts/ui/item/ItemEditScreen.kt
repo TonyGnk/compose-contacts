@@ -21,7 +21,6 @@ object ItemEditDestination : NavigationDestination {
     val routeWithArgs = "$route/{$itemIdArg}"
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemEditScreen(
     navigateBack: () -> Unit,
@@ -45,13 +44,5 @@ fun ItemEditScreen(
             onSaveImage = { },
             modifier = Modifier.padding(innerPadding)
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ItemEditScreenPreview() {
-    ComposeContactsTheme {
-        ItemEditScreen(navigateBack = { /*Do nothing*/ }, onNavigateUp = { /*Do nothing*/ })
     }
 }
